@@ -2,7 +2,7 @@ import getpass
 import os
 import random
 import imageio
-import pyautogui
+# import pyautogui
 from PIL import ImageTk, Image
 import tkinter as tk
 
@@ -23,10 +23,10 @@ def cls():
     """
 
     # time.sleep(0.1)
-    pyautogui.click(x=778, y=832)
-    pyautogui.hotkey('ctrl', 'l')
+    # pyautogui.click(x=778, y=832)
+    # pyautogui.hotkey('ctrl', 'l')
 
-    # os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def choose_wallpaper():
