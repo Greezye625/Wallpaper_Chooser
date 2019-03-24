@@ -2,6 +2,7 @@ import getpass
 import os
 import random
 import imageio
+import pyautogui
 from PIL import ImageTk, Image
 import tkinter as tk
 
@@ -22,13 +23,13 @@ def cls():
     """
 
     # time.sleep(0.1)
-    # pyautogui.click(x=778, y=832)
-    # pyautogui.hotkey('ctrl', 'l')
+    pyautogui.click(x=778, y=832)
+    pyautogui.hotkey('ctrl', 'l')
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    # os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def main():
+def choose_wallpaper():
     wallpaper_list = os.listdir()
 
     size = 960, 540
@@ -41,6 +42,7 @@ def main():
             else:
                 break
 
+        # img_name = 'test.jpg'
         imgfile = imageio.imread(img_name)
         filename, file_extension = os.path.splitext(img_name)
 
@@ -61,9 +63,13 @@ def main():
                 break
             elif decision.casefold() == '':
                 imageio.imwrite(r'C:\Users\\' + getpass.getuser() + r'\Desktop\\WALLPAPER' + file_extension, imgfile)
-                exit(1)
-
+                return
+            cls()
         cls()
+
+
+def main():
+    choose_wallpaper()
 
 
 if __name__ == '__main__':
