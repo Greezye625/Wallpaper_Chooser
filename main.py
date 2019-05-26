@@ -1,7 +1,5 @@
-import getpass
 import os
 import random
-import imageio
 # import pyautogui
 from PIL import ImageTk, Image
 import tkinter as tk
@@ -30,23 +28,21 @@ def cls():
 
 
 def choose_wallpaper():
-    wallpaper_list = os.listdir()
+    wallpaper_list = os.listdir(os.path.expanduser('~') + r'/Pictures/Wallpapers/')
 
     size = 960, 540
+
+    cycled_throug_list = []
 
     while True:
         while True:
             img_name = random.choice(wallpaper_list)
-            if img_name.endswith('.exe'):
-                continue
-            else:
+            if img_name not in cycled_throug_list:
                 break
 
-        # img_name = 'test.jpg'
-        imgfile = imageio.imread(img_name)
-        filename, file_extension = os.path.splitext(img_name)
+        cycled_throug_list.append(img_name)
 
-        img_to_display = Image.open(img_name)
+        img_to_display = Image.open(os.path.expanduser('~') + r'/Pictures/Wallpapers/' + img_name)
         Image.Image.thumbnail(img_to_display, size, Image.ANTIALIAS)
 
         root = tk.Tk()
@@ -54,16 +50,23 @@ def choose_wallpaper():
         panel = tk.Label(root, image=img_to_display_tk)
         panel.pack()
         root.update()
-
         while True:
-            decision = input("Do you like this wallpaper? (Enter - Yes/N - No)")
-            if decision.casefold() == 'n':
+            decision = input("Do you like this wallpaper? (Y - Yes/Enter - No): ")
+            if decision.casefold() == '':
                 root.update()
                 root.destroy()
                 break
-            elif decision.casefold() == '':
-                imageio.imwrite(r'C:\Users\\' + getpass.getuser() + r'\Desktop\\WALLPAPER' + file_extension, imgfile)
-                return
+            elif decision.casefold() == 'y':
+                os.system(r'''dconf write /org/cinnamon/desktop/background/picture-uri "'file:///home/greezye/Pictures/Wallpapers/{}'"'''.format(img_name))
+
+                final_check = input("Is the wallpaper looking ok? (Y/n): ")
+
+                if final_check.casefold() == 'y':
+                    return
+                else:
+                    root.update()
+                    root.destroy()
+                    break
             cls()
         cls()
 
